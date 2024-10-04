@@ -1,0 +1,7 @@
+_target_: src.datamodules.dogbreed_modules.DogBreedImageDataModule
+
+dl_path: ${paths.data_dir}/dataset
+num_workers: 0
+batch_size: 32
+splits: ["train", "val"]
+pin_memory: False

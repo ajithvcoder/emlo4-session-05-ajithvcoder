@@ -1,0 +1,1 @@
+- trainer.checkpoint_callback.best_model_path=model_storage/epoch\=0-checkpoint.ckpt
