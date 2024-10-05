@@ -5,3 +5,5 @@
 infer_images/*
 *outputs/*
 .covera*
+.pytest_cache
+htmlcov*
