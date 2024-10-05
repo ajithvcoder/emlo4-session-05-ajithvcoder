@@ -32,6 +32,10 @@ on:
         default: ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:latest
         type: string
 
+permissions:        # Define permissions for this workflow
+  packages: write   # Allow writing to packages
+  contents: read    # Allow reading repository contents
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}

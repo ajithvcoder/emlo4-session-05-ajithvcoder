@@ -9,6 +9,10 @@ on:
   workflow_call:
   workflow_dispatch:
 
+permissions:        # Define permissions for this workflow
+  packages: write   # Allow writing to packages
+  contents: read    # Allow reading repository contents
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}

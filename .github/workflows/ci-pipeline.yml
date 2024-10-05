@@ -5,6 +5,10 @@ name: CI Pipeline
 on:
   workflow_dispatch:
 
+permissions:        # Define permissions for this workflow
+  packages: write   # Allow writing to packages
+  contents: read    # Allow reading repository contents
+
 jobs:
   build:
     uses: ./.github/workflows/docker-build.yml
