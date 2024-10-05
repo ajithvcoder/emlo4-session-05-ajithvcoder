@@ -46,7 +46,7 @@ jobs:
 
     - name: Fix permissions
       run: |
-        sudo chown -R $USER:$USER checkpoints model_storage logs
+        sudo chown -R $USER:$USER model_storage logs configs
     - name: Upload model checkpoint
       uses: actions/upload-artifact@v3
       with:
