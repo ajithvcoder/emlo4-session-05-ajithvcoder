@@ -98,15 +98,5 @@ def eval(cfg: DictConfig):
         test(cfg, trainer, model, datamodule)
 
 
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser(description="Infer using trained Dogbreed Classifier")
-#     parser.add_argument("--data", type=str, required=True, help="Path to data containing images")
-#     parser.add_argument("--ckpt_path", type=str, required=True, help="Path to model checkpoint")
-#     args = parser.parse_args()
-#     # ckpt_path = "./model_storage/model.ckpt"  # Replace with your checkpoint path
-#     # data_dir = "./data"  # Replace with your data directory
-    
-#     evaluate_model(args.ckpt_path, args.data)
-
 if __name__ == "__main__":
-    main()
+    eval()

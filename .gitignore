@@ -3,4 +3,5 @@
 *logs
 *dataset
 infer_images/*
-outputs/*
+*outputs/*
+.covera*

@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from lightning import seed_everything
 
 import rootutils
-from utils.logging_utils import setup_logger, task_wrapper
+from src.utils.logging_utils import setup_logger, task_wrapper
 
 root = rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
@@ -66,7 +66,7 @@ def annotate_images(data_list, class_names, output_path):
         print(f"Annotated image saved at {result_path}")
 
 @task_wrapper
-def infer(
+def infer_task(
     cfg: DictConfig,
     trainer: L.Trainer,
     model: L.LightningModule,
@@ -88,7 +88,7 @@ def infer(
 
 
 @hydra.main(version_base="1.3", config_path="../configs", config_name="infer")
-def main(cfg: DictConfig):
+def infer(cfg: DictConfig):
     log_dir = Path(cfg.paths.log_dir)
     
     setup_logger(log_dir/"eval_log.log")
@@ -116,7 +116,7 @@ def main(cfg: DictConfig):
     )
 
     if cfg.get("infer"):
-        infer(cfg, trainer, model, datamodule)
+        infer_task(cfg, trainer, model, datamodule)
 
 if __name__ == "__main__":
-    main()
+    infer()

@@ -10,8 +10,7 @@
 - Integrate the infer.py  you made in last session with hydra
 - Make sure to integrate codecov in your repo, should be atleast 70%
 - Push the Docker Image to GHCR, should show up in Packages section of your repo
-- TOdo: change train also to torch lighting and hydra
- - dont hard code the checkpoint path for pytest
+
 
 ### Development method
 
@@ -22,6 +21,10 @@
 - python src/eval.py callbacks.model_checkpoint.filename='model_storage/epoch0-checkpoint.ckpt'
 - python src/infer.py callbacks.model_checkpoint.filename='model_storage/epoch-checkpoint.ckpt'
 ### Build Command
+
+test coverage 
+pytest --cov-report term --cov=src/models/ tests/models/test_timm_classifier.py
+
 
 ```
 docker build -t dog_train -f ./Dockerfile .
@@ -49,7 +52,7 @@ docker run --rm -v ./model_storage:/workspace/model_storage dog_train python src
 - Infer
 
 ```
-docker run --rm -v ./model_storage:/workspace/model_storage -v ./infer_images:/workspace/infer_images dog_train python src/infer.py  --input_folder data/dataset/val/ --output_folder infer_images --ckpt_path "model_storage/epoch=0-checkpoint.ckpt"
+docker run --rm -v ./model_storage:/workspace/model_storage -v ./infer_images:/workspace/infer_images dog_train python src/infer.py  --input_folder data/dataset/val/ --output_folder infer_images --ckpt_path "model_storage/epoch-checkpoint.ckpt"
 ```
 
 ### Learnings:
