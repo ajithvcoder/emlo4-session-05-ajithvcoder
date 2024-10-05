@@ -57,6 +57,22 @@ class DogBreedImageDataModule(L.LightningDataModule):
             filename="dataset.zip",
             remove_finished=True
         )
+    
+    def setup(self, stage: str = None):
+        self._train_dataset = self.create_dataset(
+            self.data_path / "train",
+            self.train_transform,
+        )
+        self._test_dataset = self.create_dataset(
+            self.data_path / "val",
+            self.train_transform,
+        )
+        self._dataset = self._train_dataset + self._test_dataset
+        train_size = len(self._train_dataset)
+        val_size =  len(self._test_dataset)
+        test_size = len(self._test_dataset)
+        self.train_dataset, self.val_dataset, self.test_dataset = self._train_dataset,\
+            self._test_dataset, self._test_dataset
 
     @property
     def data_path(self):

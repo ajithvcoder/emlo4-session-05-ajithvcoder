@@ -6,10 +6,11 @@
 
 - Start from the repository of previous Session
 - Start using Cursor!
-- Create a eval.py Links to an external site. with its config that tests the model given a checkpoint
-- Integrate the infer.py Links to an external site. you made in last session with hydra
+- Create a eval.py  with its config that tests the model given a checkpoint
+- Integrate the infer.py  you made in last session with hydra
 - Make sure to integrate codecov in your repo, should be atleast 70%
 - Push the Docker Image to GHCR, should show up in Packages section of your repo
+- TOdo: change train also to torch lighting and hydra
 
 ### Development method
 
