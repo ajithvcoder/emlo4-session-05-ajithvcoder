@@ -10,9 +10,9 @@ permissions:        # Define permissions for this workflow
   contents: read    # Allow reading repository contents
 
 jobs:
-  build:
-    uses: ./.github/workflows/docker-build.yml
-    secrets: inherit  # If you need to pass secrets to the build workflow
+  # build:
+  #   uses: ./.github/workflows/docker-build.yml
+  #   secrets: inherit  # If you need to pass secrets to the build workflow
 
   test:
     uses: ./.github/workflows/docker-test.yml
@@ -20,3 +20,4 @@ jobs:
     secrets: inherit  # If you need to pass secrets to the test workflow
     with:
         min_accuracy: '0.50'  # Provide the input value here
+        docker_image: 'ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:latest'
