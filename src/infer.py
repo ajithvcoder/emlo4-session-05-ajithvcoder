@@ -6,7 +6,8 @@ import logging
 import hydra
 import torch
 import lightning as L
-from lightning.pytorch.loggers import Logger 
+from lightning.pytorch.loggers import Logger
+from PIL import Image, ImageDraw, ImageFont
 from typing import List
 from omegaconf import DictConfig
 from dotenv import load_dotenv
@@ -44,6 +45,26 @@ def instantiate_loggers(logger_cfg: DictConfig) -> List[Logger]:
             loggers.append(hydra.utils.instantiate(lg_conf))
     return loggers
 
+def annotate_images(data_list, class_names, output_path):
+    for tensor, (image_path,) in data_list:
+        class_id = tensor.item()
+        class_name = class_names.get(class_id, 'Unknown')
+
+        try:
+            image = Image.open(image_path)
+        except IOError:
+            print(f"Failed to load image at {image_path}")
+            continue
+
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.load_default()
+        draw.text((10, 10), class_name, fill="red", font=font)
+        result_path = os.path.join(output_path, os.path.basename(image_path))
+
+        result_path = result_path.replace('.jpg', '_annotated.jpg')
+        image.save(result_path)
+        print(f"Annotated image saved at {result_path}")
+
 @task_wrapper
 def infer(
     cfg: DictConfig,
@@ -62,9 +83,8 @@ def infer(
     else:
         log.warning("No checkpoint found! Using current model weights.")
         output = trainer.predict(model, datamodule, ckpt_path=cfg.callbacks.model_checkpoint.filename)
-    print("output")
-    print(output)
-    log.info(f"output metrics:\n{output}")
+
+    annotate_images(output, cfg.data.classes, "./infer_images")
 
 
 @hydra.main(version_base="1.3", config_path="../configs", config_name="infer")
@@ -76,7 +96,6 @@ def main(cfg: DictConfig):
     # Set seed for reproducibility
     seed_everything(42)
     log.info(f"Instantiating datamodule <{cfg.data._target_}>")
-
 
     # Initialize the data module
     datamodule: L.LightningDataModule = hydra.utils.instantiate(cfg.data)
@@ -95,20 +114,9 @@ def main(cfg: DictConfig):
         callbacks=callbacks,
         logger=loggers,
     )
-    print(cfg)
+
     if cfg.get("infer"):
         infer(cfg, trainer, model, datamodule)
-
-
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser(description="Infer using trained Dogbreed Classifier")
-#     parser.add_argument("--data", type=str, required=True, help="Path to data containing images")
-#     parser.add_argument("--ckpt_path", type=str, required=True, help="Path to model checkpoint")
-#     args = parser.parse_args()
-#     # ckpt_path = "./model_storage/model.ckpt"  # Replace with your checkpoint path
-#     # data_dir = "./data"  # Replace with your data directory
-    
-#     evaluate_model(args.ckpt_path, args.data)
 
 if __name__ == "__main__":
     main()

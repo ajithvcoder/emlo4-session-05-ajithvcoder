@@ -55,11 +55,11 @@ class DogBreedClassifier(L.LightningModule):
         # pred = self.model(x).unsqueeze(0)
         # pred = torch.vstack(pred).mean(dim=0)
         pred = self(x)
-        print("pred")
-        print(pred)
+        # print("pred")
+        # print(pred)
         predicted_classes = torch.argmax(pred, dim=1)
-        print("predicted_classes", predicted_classes)
-        return [predicted_classes, batch[2]]
+        # print("predicted_classes", predicted_classes)
+        return predicted_classes, batch[2]
         
 
     def test_step(self, batch, batch_idx):

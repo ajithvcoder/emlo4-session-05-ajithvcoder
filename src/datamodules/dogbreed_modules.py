@@ -36,7 +36,8 @@ class CustomImageFolder(ImageFolder):
 
 
 class DogBreedImageDataModule(L.LightningDataModule):
-    def __init__(self, dl_path: Union[str, Path] = "data", num_workers: int = 0, batch_size: int = 32, splits: List = [0.8, 0.2], pin_memory: bool = False, samples: int = 5):
+    def __init__(self, dl_path: Union[str, Path] = "data", num_workers: int = 0, batch_size: int = 32, splits: List = [0.8, 0.2],
+        pin_memory: bool = False, samples: int = 5, filenames: List = [], classes: dict = {}):
         super().__init__()
         self._dl_path = dl_path
         self._num_workers = num_workers
@@ -44,6 +45,7 @@ class DogBreedImageDataModule(L.LightningDataModule):
         self._splits = splits
         self._pin_memory = pin_memory
         self._samples = samples
+        self._filenames = filenames
 
     def prepare_data(self):
         """Download images and prepare images datasets."""
@@ -95,31 +97,17 @@ class DogBreedImageDataModule(L.LightningDataModule):
         elif test:
             dataset = self.create_dataset(self.data_path.joinpath("val"), self.valid_transform)
         elif infer:
-            # indices = [20, 40, 90, 33, 60]
-            filenames = ["Golden Retriever_12.jpg", "Beagle_7.jpg", "Golden Retriever_58.jpg", "Beagle_72.jpg", "Beagle_88.jpg"]
-            dataset = self.create_infer_dataset(self.data_path.joinpath(self._splits[1]), filenames, self.valid_transform)
-            
-            # print(dataset.)
-            # Select the first 5 images from the dataset
-            # indices = list(range(self._samples))  # Get indices for the first 5 images
-            
-            # print("indices-",indices)
-            # dataset = Subset(dataset, indices)  # Create a subset
+            dataset = self.create_infer_dataset(self.data_path.joinpath(self._splits[1]), self._filenames, self.valid_transform)
             self._batch_size =  1
-            # dataset.length = len(filenames)
-            # print("length_of_dataset-", len(dataset))
-        return DataLoader(dataset=dataset, batch_size=self._batch_size, num_workers=self._num_workers, pin_memory=self._pin_memory)
+        return DataLoader(dataset=dataset, batch_size=self._batch_size, num_workers=self._num_workers, shuffle=train)
 
     def train_dataloader(self):
-        print("---train dataloader--")
         return self.__dataloader(train=True)
 
     def val_dataloader(self):
-        print("---val dataloader--")
         return self.__dataloader(test=True)
 
     def test_dataloader(self):
-        print("---test dataloader--")
         return self.__dataloader(test=True)  # Using validation dataset for testing
 
     def predict_dataloader(self):

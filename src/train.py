@@ -11,7 +11,7 @@ from models.dogbreed_classifer import DogBreedClassifier
 from utils.logging_utils import setup_logger, task_wrapper
 
 @task_wrapper
-def train_and_save(data_module, model, trainer, save_path="../model_storage/model.ckpt"):
+def train_and_save(data_module, model, trainer, save_path="./model_storage/model.ckpt"):
     trainer.fit(model, data_module)
     trainer.test(model, data_module)
     model.save_model(save_path)

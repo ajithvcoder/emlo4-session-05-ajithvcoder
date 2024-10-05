@@ -18,7 +18,7 @@
 - contanarise and write ci to push to github registry
 
 - python src/eval.py callbacks.model_checkpoint.filename='model_storage/epoch0-checkpoint.ckpt'
-
+- python src/infer.py callbacks.model_checkpoint.filename='model_storage/epoch-checkpoint.ckpt'
 ### Build Command
 
 ```
@@ -27,6 +27,10 @@ docker build -t dog_train -f ./Dockerfile .
 docker run -d -v /workspace/emlo4-session-05-ajithvcoder/:/workspace/ dog_train   tail -f /dev/null
 ^C^C^C
 docker exec -it 2f2ee3466b56 /bin/bash
+
+
+python src/infer.py  --input_folder data/dataset/val/ --output_folder infer_images --ckpt_path "model_storage/epoch-checkpoint.ckpt"
+
 ### Docker file usage to train, eval and infer
 - Train
 

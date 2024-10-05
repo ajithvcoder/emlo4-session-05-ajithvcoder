@@ -2,3 +2,4 @@
 *.ckpt
 *logs
 *dataset
+infer_images/*
