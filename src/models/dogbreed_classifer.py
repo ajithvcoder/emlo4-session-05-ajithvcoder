@@ -6,7 +6,7 @@ from torch import optim
 from torchmetrics import Accuracy
 
 class DogBreedClassifier(L.LightningModule):
-    def __init__(self, base_model: str = "resnet", num_classes: int = 10, lr: float = 1e-3):
+    def __init__(self, base_model: str = "resnet18", num_classes: int = 10, lr: float = 1e-3):
         super().__init__()
         self.lr = lr
         self.num_classes = num_classes

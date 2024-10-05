@@ -13,9 +13,9 @@ from utils.logging_utils import setup_logger, task_wrapper
 @task_wrapper
 def train_and_save(data_module, model, trainer, save_path="../model_storage/model.ckpt"):
     trainer.fit(model, data_module)
-    # trainer.test(model, data_module)
-    # model.save_model(save_path)
-    # print(f"Model saved to {save_path}")
+    trainer.test(model, data_module)
+    model.save_model(save_path)
+    print(f"Model saved to {save_path}")
 
 class CustomModelCheckpiont(ModelCheckpoint):
     def _save_checkpoint(self, trainer, filepath):
@@ -37,7 +37,7 @@ def main(args):
     data_module = DogBreedImageDataModule(dl_path=data_dir, batch_size=32, num_workers=0)
 
     # Initialize Model
-    model = DogBreedClassifier(lr=1e-3)
+    model = DogBreedClassifier()
 
     # Set up checkpoint callback
     checkpoint_callback = CustomModelCheckpiont(

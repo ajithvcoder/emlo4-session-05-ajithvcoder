@@ -24,7 +24,9 @@
 ```
 docker build -t dog_train -f ./Dockerfile .
 ```
-
+docker run -d -v /workspace/emlo4-session-05-ajithvcoder/:/workspace/ dog_train   tail -f /dev/null
+^C^C^C
+docker exec -it 2f2ee3466b56 /bin/bash
 ### Docker file usage to train, eval and infer
 - Train
 
