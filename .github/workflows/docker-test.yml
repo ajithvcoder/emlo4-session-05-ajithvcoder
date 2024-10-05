@@ -87,29 +87,27 @@ jobs:
         fi
         
         echo "val_accuracy=$val_acc" >> $GITHUB_OUTPUT
-         
 
+    - name: Fix permissions
+      run: |
+        sudo chown -R $USER:$USER model_storage logs configs
+    - name: Upload model checkpoint
+      uses: actions/upload-artifact@v3
+      with:
+        name: model-checkpoint
+        path: model_storage/
+        retention-days: 20
 
-    # - name: Fix permissions
-    #   run: |
-    #     sudo chown -R $USER:$USER model_storage logs configs
-    # - name: Upload model checkpoint
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: model-checkpoint
-    #     path: model_storage/
-    #     retention-days: 20
+    - name: Upload training logs
+      uses: actions/upload-artifact@v3
+      with:
+        name: training-logs
+        path: logs/
+        retention-days: 20
 
-    # - name: Upload training logs
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: training-logs
-    #     path: logs/
-    #     retention-days: 20
-
-    # - name: Upload config
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: all-config
-    #     path: configs/
-    #     retention-days: 20
+    - name: Upload config
+      uses: actions/upload-artifact@v3
+      with:
+        name: all-config
+        path: configs/
+        retention-days: 20

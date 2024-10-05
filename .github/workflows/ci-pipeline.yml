@@ -10,13 +10,13 @@ permissions:        # Define permissions for this workflow
   contents: read    # Allow reading repository contents
 
 jobs:
-  # build:
-  #   uses: ./.github/workflows/docker-build.yml
-  #   secrets: inherit  # If you need to pass secrets to the build workflow
+  build:
+    uses: ./.github/workflows/docker-build.yml
+    secrets: inherit  # If you need to pass secrets to the build workflow
 
   test:
     uses: ./.github/workflows/docker-test.yml
-    # needs: build  # This ensures that the test job runs after the build job
+    needs: build  # This ensures that the test job runs after the build job
     secrets: inherit  # If you need to pass secrets to the test workflow
     with:
         min_accuracy: '0.50'  # Provide the input value here
