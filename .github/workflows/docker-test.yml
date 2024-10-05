@@ -29,7 +29,8 @@ on:
         type: string
       docker_image:
         description: 'Minimum required accuracy'
-        default: ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:latest
+        required: false
+        default: 'ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:latest'
         type: string
 
 permissions:        # Define permissions for this workflow
@@ -60,14 +61,17 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Debug Docker Image Input
+      run: echo "docker image - ${{ inputs.docker_image }}"
+
     - name: Pull DHCR Image
-      run: docker pull ${{ github.event.inputs.docker_image }}
+      run: docker pull ${{ inputs.docker_image }}
 
     - name: Run training in DHCR container
       run: |
         output=$(docker run --rm \
           -v ${PWD}:/workspace \
-          ${{ github.event.inputs.docker_image }} \
+          ${{ inputs.docker_image }} \
           bash -c "python src/train.py --config-name=train experiment=catdog_ex trainer.max_epochs=1")
         echo "$output"
 
