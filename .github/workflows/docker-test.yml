@@ -72,7 +72,7 @@ jobs:
         output=$(docker run --rm \
           -v ${PWD}:/workspace \
           ${{ inputs.docker_image }} \
-          bash -c "python src/train.py --config-name=train experiment=catdog_ex trainer.max_epochs=1")
+          bash -c "python src/train.py --config-name=train experiment=catdog_ex trainer.max_epochs=5")
         
         echo "$output"
 
