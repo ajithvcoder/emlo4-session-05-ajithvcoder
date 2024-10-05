@@ -2,8 +2,13 @@
 
 name: CI Pipeline
 
+# on:
+#   workflow_dispatch:
+
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main  # Triggers the workflow on push to the main branch
 
 permissions:        # Define permissions for this workflow
   packages: write   # Allow writing to packages
@@ -19,5 +24,5 @@ jobs:
     needs: build  # This ensures that the test job runs after the build job
     secrets: inherit  # If you need to pass secrets to the test workflow
     with:
-        min_accuracy: '0.50'  # Provide the input value here
+        min_accuracy: '0.95'  # Provide the input value here
         docker_image: 'ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:latest'
