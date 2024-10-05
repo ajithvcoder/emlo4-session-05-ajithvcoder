@@ -42,7 +42,7 @@ jobs:
         docker run --rm \
           -v ${PWD}:/workspace \
           ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:sha-9199afd \
-          bash -c "python train.py"
+          bash -c "python src/train.py"
 
     - name: Upload model checkpoint
       uses: actions/upload-artifact@v3
