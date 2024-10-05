@@ -24,6 +24,7 @@
 
 test coverage 
 pytest --cov-report term --cov=src/models/ tests/models/test_timm_classifier.py
+pytest --cov-report term --cov=src/ tests/
 
 
 ```
