@@ -72,7 +72,8 @@ jobs:
         output=$(docker run --rm \
           -v ${PWD}:/workspace \
           ${{ inputs.docker_image }} \
-          bash -c "python src/train.py --config-name=train experiment=catdog_ex trainer.max_epochs=5")
+          bash -c "python src/train.py --config-name=train experiment=catdog_ex trainer.max_epochs=1")
+        
         echo "$output"
 
         # Extract accuracy and compare with threshold
@@ -80,7 +81,7 @@ jobs:
         echo "Validation accuracy: $val_acc"
 
         # Compare accuracy with minimum required
-        min_acc=${{ github.event.inputs.min_accuracy }}
+        min_acc=${{ inputs.min_accuracy }}
         if (( $(echo "$val_acc < $min_acc" | bc -l) )); then
           echo "::error::Validation accuracy ($val_acc) is below the required threshold ($min_acc)"
           exit 1
