@@ -11,6 +11,7 @@
 - Make sure to integrate codecov in your repo, should be atleast 70%
 - Push the Docker Image to GHCR, should show up in Packages section of your repo
 - TOdo: change train also to torch lighting and hydra
+ - dont hard code the checkpoint path for pytest
 
 ### Development method
 

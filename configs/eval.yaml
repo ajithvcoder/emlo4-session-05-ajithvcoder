@@ -11,7 +11,7 @@ defaults:
   - callbacks: default
   - hydra: default
 
-  # - experiment: dogbreed_ex
+  - experiment: dogbreed_ex
 
   - debug: null
 

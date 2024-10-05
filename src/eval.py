@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from lightning import seed_everything
 
 import rootutils
-from utils.logging_utils import setup_logger, task_wrapper
+from src.utils.logging_utils import setup_logger, task_wrapper
 
 root = rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
@@ -66,7 +66,7 @@ def test(
 
 
 @hydra.main(version_base="1.3", config_path="../configs", config_name="eval")
-def main(cfg: DictConfig):
+def eval(cfg: DictConfig):
     log_dir = Path(cfg.paths.log_dir)
     
     setup_logger(log_dir/"eval_log.log")

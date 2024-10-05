@@ -35,7 +35,7 @@ callbacks:
     mode: "max"
     save_top_k: 1
     save_last: True
-    filename: model_storage/epoch0-checkpoint.ckpt
+    filename: model_storage/epoch-checkpoint.ckpt
 
   early_stopping:
     monitor: "val/acc"
