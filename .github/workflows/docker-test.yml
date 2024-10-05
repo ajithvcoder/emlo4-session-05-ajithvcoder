@@ -9,6 +9,12 @@ name: ML Training Workflow with DHCR
 
 on:
   workflow_dispatch:
+    inputs:
+      min_accuracy:
+        description: 'Minimum required accuracy'
+        required: true
+        default: '0.50'
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -39,31 +45,47 @@ jobs:
 
     - name: Run training in DHCR container
       run: |
-        docker run --rm \
+        output=$(docker run --rm \
           -v ${PWD}:/workspace \
           ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:sha-9199afd \
-          bash -c "python src/train.py"
+          bash -c "python src/train.py")
+        echo "$output"
 
-    - name: Fix permissions
-      run: |
-        sudo chown -R $USER:$USER model_storage logs configs
-    - name: Upload model checkpoint
-      uses: actions/upload-artifact@v3
-      with:
-        name: model-checkpoint
-        path: model_storage/
-        retention-days: 20
+        # Extract accuracy and compare with threshold
+        val_acc=$(echo "$output" | grep -o "'val_acc': tensor([0-9.]*)" | grep -o "[0-9.]*")
+        echo "Validation accuracy: $val_acc"
 
-    - name: Upload training logs
-      uses: actions/upload-artifact@v3
-      with:
-        name: training-logs
-        path: logs/
-        retention-days: 20
+        # Compare accuracy with minimum required
+        min_acc=${{ github.event.inputs.min_accuracy }}
+        if (( $(echo "$val_acc < $min_acc" | bc -l) )); then
+          echo "::error::Validation accuracy ($val_acc) is below the required threshold ($min_acc)"
+          exit 1
+        fi
+        
+        echo "val_accuracy=$val_acc" >> $GITHUB_OUTPUT
+         
 
-    - name: Upload config
-      uses: actions/upload-artifact@v3
-      with:
-        name: all-config
-        path: configs/
-        retention-days: 20
+
+    # - name: Fix permissions
+    #   run: |
+    #     sudo chown -R $USER:$USER model_storage logs configs
+    # - name: Upload model checkpoint
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: model-checkpoint
+    #     path: model_storage/
+    #     retention-days: 20
+
+    # - name: Upload training logs
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: training-logs
+    #     path: logs/
+    #     retention-days: 20
+
+    # - name: Upload config
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: all-config
+    #     path: configs/
+    #     retention-days: 20
