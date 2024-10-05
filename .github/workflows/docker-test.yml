@@ -41,10 +41,12 @@ jobs:
       run: |
         docker run --rm \
           -v ${PWD}:/workspace \
-          -u $(id -u):$(id -g) \
           ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:sha-9199afd \
           bash -c "python src/train.py"
 
+    - name: Fix permissions
+      run: |
+        sudo chown -R $USER:$USER checkpoints model_storage logs
     - name: Upload model checkpoint
       uses: actions/upload-artifact@v3
       with:
