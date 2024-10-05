@@ -22,6 +22,13 @@
 - python src/infer.py callbacks.model_checkpoint.filename='model_storage/epoch-checkpoint.ckpt'
 ### Build Command
 
+
+run dogbreed (default experiment)
+python src/train.py +experiment.trainer.max_epochs=2
+
+run catdog
+ python src/train.py  --config-name=train experiment=catdog_ex trainer.max_epochs=3
+
 test coverage 
 pytest --cov-report term --cov=src/models/ tests/models/test_timm_classifier.py
 pytest --cov-report term --cov=src/ tests/

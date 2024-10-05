@@ -50,13 +50,15 @@ class DogBreedImageDataModule(L.LightningDataModule):
     def prepare_data(self):
         """Download images and prepare images datasets."""
         # print("val",self.data_path.joinpath("val"))
-        download_and_extract_archive(
-            url="https://drive.google.com/file/d/1aa3sMvNkopVhbK2ISrg5A2kI8yWJrlp5/view?usp=sharing",
-            # url=f"https://drive.google.com/uc?id=1By9UUbUAyiTJ2LpX3jlsRXmYOEbMbuO8",
-            download_root=self._dl_path,
-            filename="dataset.zip",
-            remove_finished=True
-        )
+        dataset_path = self.data_path / "dataset"
+        if not dataset_path.exists():
+            download_and_extract_archive(
+                url="https://drive.google.com/file/d/1aa3sMvNkopVhbK2ISrg5A2kI8yWJrlp5/view?usp=sharing",
+                # url=f"https://drive.google.com/uc?id=1By9UUbUAyiTJ2LpX3jlsRXmYOEbMbuO8",
+                download_root=self._dl_path,
+                filename="dataset.zip",
+                remove_finished=True
+            )
     
     def setup(self, stage: str = None):
         self._train_dataset = self.create_dataset(

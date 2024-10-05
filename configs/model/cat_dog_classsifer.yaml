@@ -1,4 +1,4 @@
-_target_: src.models.dogbreed_classifer.DogBreedClassifier
+_target_: src.models.cat_dog_classifier.CatDogClassifier
 
 # Model parameters
 base_model: mobilenetv3

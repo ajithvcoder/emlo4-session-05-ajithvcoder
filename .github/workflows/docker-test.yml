@@ -1,4 +1,4 @@
-name: ML Training Workflow with DHCR
+name: ML Training and artifact generation Workflow with DHCR
 
 # on:
 #   push:
@@ -15,13 +15,16 @@ on:
         required: true
         default: '0.50'
         type: string
+      docker_image:
+        description: 'Minimum required accuracy'
+        default: ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:latest
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  train:
+  train_and_create_artifacts:
     runs-on: ubuntu-latest
     permissions:
           contents: read
@@ -41,14 +44,14 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Pull DHCR Image
-      run: docker pull ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:sha-9199afd
+      run: docker pull ${{ github.event.inputs.docker_image }}
 
     - name: Run training in DHCR container
       run: |
         output=$(docker run --rm \
           -v ${PWD}:/workspace \
-          ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:sha-9199afd \
-          bash -c "python src/train.py")
+          ${{ github.event.inputs.docker_image }} \
+          bash -c "python src/train.py --config-name=train experiment=catdog_ex trainer.max_epochs=1")
         echo "$output"
 
         # Extract accuracy and compare with threshold

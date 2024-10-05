@@ -2,6 +2,7 @@
 *.ckpt
 *logs
 *dataset
+*dataset_cat*
 infer_images/*
 *outputs/*
 .covera*
