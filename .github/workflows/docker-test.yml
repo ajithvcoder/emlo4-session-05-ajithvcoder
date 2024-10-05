@@ -18,6 +18,19 @@ on:
       docker_image:
         description: 'Minimum required accuracy'
         default: ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:latest
+        type: string
+
+  workflow_call:
+    inputs:
+      min_accuracy:
+        description: 'Minimum required accuracy'
+        required: true
+        default: '0.50'
+        type: string
+      docker_image:
+        description: 'Minimum required accuracy'
+        default: ghcr.io/ajithvcoder/emlo4-session-05-ajithvcoder:latest
+        type: string
 
 env:
   REGISTRY: ghcr.io
