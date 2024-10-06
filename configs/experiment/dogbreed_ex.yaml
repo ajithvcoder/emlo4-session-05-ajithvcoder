@@ -21,7 +21,7 @@ data:
   pin_memory: True
 
 model:
-  base_model: "resnet18"
+  base_model: "mobilenetv3_small_100"
   num_classes: 10
   lr: 1e-3
 

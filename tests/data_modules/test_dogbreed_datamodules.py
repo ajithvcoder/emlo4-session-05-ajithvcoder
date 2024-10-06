@@ -12,6 +12,8 @@ def datamodule():
     return DogBreedImageDataModule(dl_path = "data", num_workers = 0, batch_size = 32, splits = [0.8, 0.2],
         pin_memory = False, samples = 5, filenames = [], classes = {})
 
+@pytest.mark.dependency(on=['tests/test_infer.py'])
+@pytest.mark.order(4)
 def test_dogbreed_datamodule_setup(datamodule):
     datamodule.prepare_data()
     datamodule.setup(stage='fit')
@@ -30,14 +32,16 @@ def test_dogbreed_datamodule_setup(datamodule):
     print("total size", total_size)
     # assert total_size == len(datamodule._dataset)
 
-
+@pytest.mark.dependency(on=['tests/test_infer.py'])
+@pytest.mark.order(5)
 def test_dogbreed_datamodule_train_val_test_splits(datamodule):
     datamodule.prepare_data()
     datamodule.setup(stage="fit")
     assert len(datamodule.train_dataset) > len(datamodule.val_dataset)
     assert len(datamodule.train_dataset) > len(datamodule.test_dataset)
 
-
+@pytest.mark.dependency(on=['tests/test_infer.py'])
+@pytest.mark.order(6)
 def test_dogbreed_datamodule_dataloaders(datamodule):
     datamodule.prepare_data()
     datamodule.setup()

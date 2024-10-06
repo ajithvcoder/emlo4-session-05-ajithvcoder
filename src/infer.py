@@ -14,9 +14,10 @@ from dotenv import load_dotenv
 from lightning import seed_everything
 
 import rootutils
-from src.utils.logging_utils import setup_logger, task_wrapper
 
 root = rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
+
+from src.utils.logging_utils import setup_logger, task_wrapper
 
 log = logging.getLogger(__name__)
 load_dotenv("../.env") 

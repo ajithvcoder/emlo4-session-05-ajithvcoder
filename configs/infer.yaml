@@ -9,8 +9,10 @@ defaults:
   - paths: default
   - trainer: default
   - hydra: default
+  - callbacks: default
   - debug: null
   # - override /callbacks: default
+  - experiment: dogbreed_ex
 
 task_name: "infer"
 tags: ["dev"]
