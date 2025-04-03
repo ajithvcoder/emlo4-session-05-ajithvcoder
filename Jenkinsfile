@@ -5,7 +5,7 @@ pipeline {
     stage('Select Environment') {
         steps {
             // echo "Select configuration forNV  $(pwd) environment"
-            echo "Select configuration forNV  ${pwd} environment"
+            echo "Select configuration forNV  {$(pwd)} environment"
             // script {
             //     if (params.ENV == 'prod') {
             //         CONFIG_FILE = 'prod.groovy'
@@ -21,7 +21,7 @@ pipeline {
                 // def config = new Properties()
                 // config.load(new FileInputStream(CONFIG_FILE))
                 def yaml = new org.yaml.snakeyaml.Yaml()
-                def config = yaml.load(new FileInputStream('./config.yaml'))
+                def config = yaml.load(new FileInputStream('/config.yaml'))
                 env.STAGE1_NAME = config.stages[0].name
                 env.STAGE2_NAME = config.stages[1].name
                 env.STAGE3_NAME = config.stages[2].name
