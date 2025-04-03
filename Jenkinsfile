@@ -1,10 +1,18 @@
 pipeline {
   agent any 
-  environment {
-      CONFIG_FILE = ''
-  }
   stages {
 
+    stage('Select Environment') {
+        steps {
+            script {
+                if (params.ENV == 'prod') {
+                    CONFIG_FILE = 'prod.groovy'
+                } else {
+                    CONFIG_FILE = 'dev.groovy'
+                }
+            }
+        }
+    }
     stage('Load Config') {
         steps {
             script {
@@ -13,7 +21,6 @@ pipeline {
             }
         }
     }
-
     stage('Deploy') {
         steps {
             script {
