@@ -4,13 +4,14 @@ pipeline {
 
     stage('Select Environment') {
         steps {
-            script {
-                if (params.ENV == 'prod') {
-                    CONFIG_FILE = 'prod.groovy'
-                } else {
-                    CONFIG_FILE = 'dev.groovy'
-                }
-            }
+            echo "Select configuration forNV  ${env.dbuser} environment"
+            // script {
+            //     if (params.ENV == 'prod') {
+            //         CONFIG_FILE = 'prod.groovy'
+            //     } else {
+            //         CONFIG_FILE = 'dev.groovy'
+            //     }
+            // }
         }
     }
     stage('Load Config') {
