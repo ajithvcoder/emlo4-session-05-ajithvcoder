@@ -17,7 +17,7 @@ pipeline {
         steps {
             script {
                 def config = new Properties()
-                config.load(new FileInputStream('config.properties'))
+                config.load(new FileInputStream(CONFIG_FILE))
                 env.url = config.getProperty('url')
                 env.dbuser = config.getProperty('dbuser')
                 // def config = load CONFIG_FILE
