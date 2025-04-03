@@ -16,24 +16,23 @@ pipeline {
     stage('Load Config') {
         steps {
             script {
-                def config = load CONFIG_FILE
-                echo "Loaded configuration for ${params.ENV} environment"
+                def config = new Properties()
+                config.load(new FileInputStream('config.properties'))
+                env.url = config.getProperty('url')
+                env.dbuser = config.getProperty('dbuser')
+                // def config = load CONFIG_FILE
+                echo "Loaded configuration forNV  ${env.dbuser} environment"
             }
         }
     }
     stage('Deploy') {
         steps {
-            script {
-                def config = load CONFIG_FILE
-                // Use the loaded configuration for deployment
-                echo "Deploying to ${params.ENV} environment with URL: ${config.url}"
-                // Add your deployment steps here
-            }
+          echo "deploy  ${env.dbuser}"
         }
     }
     stage("test_old") {
       steps {
-        echo "testing application"
+        echo "${env.url}  ${env.dbuser}"
       }
     }
     stage("deploy_old") {
