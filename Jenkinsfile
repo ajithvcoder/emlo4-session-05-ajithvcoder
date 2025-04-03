@@ -4,8 +4,8 @@ pipeline {
 
     stage('Select Environment') {
         steps {
-            echo "Select configuration forNV  $(pwd) environment"
-            echo "Select configuration forNV  {$(pwd)} environment"
+            // echo "Select configuration forNV  $(pwd) environment"
+            echo "Select configuration forNV  ${pwd} environment"
             // script {
             //     if (params.ENV == 'prod') {
             //         CONFIG_FILE = 'prod.groovy'
