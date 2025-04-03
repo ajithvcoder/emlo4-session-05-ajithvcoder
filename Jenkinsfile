@@ -16,10 +16,15 @@ pipeline {
     stage('Load Config') {
         steps {
             script {
-                def config = new Properties()
-                config.load(new FileInputStream(CONFIG_FILE))
-                env.url = config.getProperty('url')
-                env.dbuser = config.getProperty('dbuser')
+                // def config = new Properties()
+                // config.load(new FileInputStream(CONFIG_FILE))
+                def yaml = new org.yaml.snakeyaml.Yaml()
+                def config = yaml.load(new FileInputStream('config.yaml'))
+                env.STAGE1_NAME = config.stages[0].name
+                env.STAGE2_NAME = config.stages[1].name
+                env.STAGE3_NAME = config.stages[2].name
+                // env.url = config.getProperty('url')
+                // env.dbuser = config.getProperty('dbuser')
                 // def config = load CONFIG_FILE
                 echo "Loaded configuration forNV  ${env.dbuser} environment"
             }
@@ -27,12 +32,12 @@ pipeline {
     }
     stage('Deploy') {
         steps {
-          echo "deploy  ${env.dbuser}"
+          echo "deploy  ${env.STAGE1_NAME}"
         }
     }
     stage("test_old") {
       steps {
-        echo "${env.url}  ${env.dbuser}"
+        echo "${env.url}  ${env.STAGE2_NAME}"
       }
     }
     stage("deploy_old") {
