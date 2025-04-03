@@ -4,19 +4,7 @@ pipeline {
       CONFIG_FILE = ''
   }
   stages {
-    stage('Load Config') {
-        steps {
-            script {
-                def config = load CONFIG_FILE
-                echo "Loaded configuration for ${params.ENV} environment"
-            }
-        }
-    }
-    stage("build") {
-      steps {
-        echo "building application"
-      }
-    }
+
     stage('Load Config') {
         steps {
             script {
@@ -49,6 +37,6 @@ pipeline {
   }
 
   parameters {
-      choice(name: 'ENV', choices: ['dev', 'prod'], description: 'Select the environment to deploy', defaultValue: 'dev')
+      choice(name: 'ENV', choices: ['dev', 'prod'], description: 'Select the environment to deploy')
   }
 }
