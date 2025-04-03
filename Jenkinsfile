@@ -20,7 +20,7 @@ pipeline {
                 // def config = new Properties()
                 // config.load(new FileInputStream(CONFIG_FILE))
                 def yaml = new org.yaml.snakeyaml.Yaml()
-                def config = yaml.load(new FileInputStream('config.yaml'))
+                def config = yaml.load(new FileInputStream('./config.yaml'))
                 env.STAGE1_NAME = config.stages[0].name
                 env.STAGE2_NAME = config.stages[1].name
                 env.STAGE3_NAME = config.stages[2].name
