@@ -1,0 +1,4 @@
+stages:
+  - name: Build
+  - name: Test
+  - name: Deploy
